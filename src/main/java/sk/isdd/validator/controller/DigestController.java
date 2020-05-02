@@ -1,21 +1,21 @@
 package sk.isdd.validator.controller;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sk.isdd.validator.ApplicationException;
 import sk.isdd.validator.enumerations.DigestAlgorithm;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
 import sk.isdd.validator.fx.FileToStringConverter;
@@ -35,59 +35,61 @@ public class DigestController implements Initializable {
 	private static final Logger LOG = LoggerFactory.getLogger(DigestController.class);
 
 	@FXML
-	public ComboBox<XmlC14nMethod> comboMethod;
+	public ComboBox<XmlC14nMethod> cbMethod;
 
     @FXML
     public Label lblMethodUri;
 
 	@FXML
-	public ComboBox<DigestAlgorithm> comboAlgorithm;
+	public ComboBox<DigestAlgorithm> cbAlgorithm;
 
     @FXML
-	private Button sourceFileButton;
+	private Button btnSourceFile;
 
 	@FXML
-	private Button calculateButton;
+	private Button btnCalculate;
 
 	@FXML
 	private Button saveButton;
 
 	private Stage stage;
-
 	private DigestModel model;
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new DigestModel();
 
-        // init XML source file button
-		sourceFileButton.setOnAction(event -> {
+        // init loading button for XML source file
+		btnSourceFile.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Select source file");
 			File sourceFile = fileChooser.showOpenDialog(stage);
 			model.setSourceFile(sourceFile);
 		});
-		sourceFileButton.textProperty().bindBidirectional(model.sourceFileProperty(), new FileToStringConverter());
+
+		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new FileToStringConverter());
         BooleanBinding isMandatoryFieldsEmpty = model.sourceFileProperty().isNull();
 
         // init c14n combo box
-        comboMethod.valueProperty().bindBidirectional(model.methodProperty());
-        comboMethod.getItems().setAll(XmlC14nMethod.values());
+        cbMethod.valueProperty().bindBidirectional(model.methodProperty());
+        cbMethod.getItems().setAll(XmlC14nMethod.values());
 
-        // add listener to c14n combo box value and update adjacent label with uri value
-        comboMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+        // add listener to c14n combo box value and update adjacent label with its uri value
+        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
                     lblMethodUri.setText(newValue.getUri());
                 }
         );
-        comboMethod.setValue(XmlC14nMethod.NONE);
+        cbMethod.setValue(XmlC14nMethod.NONE);
+
 
         // init calculation button
-		calculateButton.disableProperty().bind(isMandatoryFieldsEmpty);
+		btnCalculate.disableProperty().bind(isMandatoryFieldsEmpty);
 
-		calculateButton.setOnAction(event -> {
+		btnCalculate.setOnAction(event -> {
 
 			File sourceFile = model.getSourceFile();
 

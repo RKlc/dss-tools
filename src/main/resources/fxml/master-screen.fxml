@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<TabPane xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="sk.isdd.validator.controller.MasterController"
+         fx:id="tabPane"
+         minWidth="800.0" minHeight="400.0"
+         maxHeight="-Infinity" maxWidth="-Infinity"
+         prefWidth="800.0" prefHeight="600.0">
+
+    <tabs>
+        <Tab fx:id="tabDigest" text="XML Digest">
+            <fx:include fx:id="digest" source="digest-screen.fxml" />
+        </Tab>
+        <Tab text="Other tab">
+        </Tab>
+    </tabs>
+</TabPane>
