@@ -2,9 +2,19 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="apache.releases.https" />
+      <option name="name" value="Apache Release Distribution Repository" />
+      <option name="url" value="https://repository.apache.org/service/local/staging/deploy/maven2" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="in-project" />
+      <option name="name" value="In Project Repository" />
+      <option name="url" value="file://D:\GIT\dss-tools/lib" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

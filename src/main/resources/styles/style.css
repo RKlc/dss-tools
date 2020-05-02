@@ -1,0 +1,19 @@
+.hbox-style {
+    -fx-spacing: 10;
+	-fx-alignment : center-left;
+	-fx-min-height : 30;
+	-fx-pref-height : 30;
+}
+
+.label-style {
+	-fx-pref-width : 120;
+	-fx-min-width : 120;
+}
+
+.separator-style {
+    -fx-padding: 10 0;
+}
+
+.warningLabel {
+	-fx-text-fill: #FF8000;
+}
