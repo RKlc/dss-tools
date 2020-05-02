@@ -12,7 +12,6 @@ import org.apache.xml.security.Init;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sk.isdd.validator.enumerations.DigestAlgorithm;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
 import sk.isdd.validator.fx.FileToStringConverter;
 import sk.isdd.validator.model.DigestModel;
@@ -25,19 +24,33 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-
+/**
+ * Controller for message digests
+ * <p>
+ * User can select source file and optional c14n canonical transformation.
+ * All the digests are calculated at once, over transformed source file.
+ * Resulting XML file can be saved as new file.
+ * <ul>
+ * <li>Supports c14n transformation method (canonicalization) as defined by W3C,
+ *      enumerated in {@link sk.isdd.validator.enumerations.XmlC14nMethod}.
+ * <li>Supports all the hash algorithms enumerated in {@link sk.isdd.validator.enumerations.DigestAlgorithm}
+ * </ul>
+ */
 public class DigestController implements Initializable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DigestController.class);
 
+    /**
+     * Combo box for selecting canonicalization method (enumerated in {@link sk.isdd.validator.enumerations.XmlC14nMethod})
+     */
 	@FXML
-	public ComboBox<XmlC14nMethod> cbMethod;
+	public ComboBox<XmlC14nMethod> cbXmlC14nMethod;
 
+    /**
+     * Label holding information about W3C URI specification from selected enumeration
+     */
     @FXML
     public Label lblMethodUri;
-
-	@FXML
-	public ComboBox<DigestAlgorithm> cbAlgorithm;
 
     @FXML
 	private Button btnSourceFile;
@@ -46,7 +59,7 @@ public class DigestController implements Initializable {
 	private Button btnCalculate;
 
 	@FXML
-	private Button saveButton;
+	private Button btnSaveAs;
 
 	private Stage stage;
 	private DigestModel model;
@@ -71,20 +84,21 @@ public class DigestController implements Initializable {
         BooleanBinding isMandatoryFieldsEmpty = model.sourceFileProperty().isNull();
 
         // init c14n combo box
-        cbMethod.valueProperty().bindBidirectional(model.methodProperty());
-        cbMethod.getItems().setAll(XmlC14nMethod.values());
+        cbXmlC14nMethod.valueProperty().bindBidirectional(model.xmlC14nMethodProperty());
+        cbXmlC14nMethod.getItems().setAll(XmlC14nMethod.values());
 
         // add listener to c14n combo box value and update adjacent label with its uri value
-        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+        cbXmlC14nMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
                     lblMethodUri.setText(newValue.getUri());
                 }
         );
-        cbMethod.setValue(XmlC14nMethod.NONE);
+        cbXmlC14nMethod.setValue(XmlC14nMethod.NONE);
 
 
         // init calculation button
 		btnCalculate.disableProperty().bind(isMandatoryFieldsEmpty);
 
+		// TODO: needs to go to the model
 		btnCalculate.setOnAction(event -> {
 
 			File sourceFile = model.getSourceFile();

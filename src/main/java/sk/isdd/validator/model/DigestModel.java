@@ -8,28 +8,56 @@ import sk.isdd.validator.enumerations.XmlC14nMethod;
 
 import java.io.File;
 
-
+/**
+ * Data representation and transformation support for calculating message digests.
+ */
 public class DigestModel {
 
+    /**
+     * Default logger
+     */
 	private static final Logger LOG = LoggerFactory.getLogger(DigestModel.class);
 
+    /**
+     * Source file selected for transformation bound to sourceFile button.
+     */
 	private ObjectProperty<File> sourceFile = new SimpleObjectProperty<>();
-    private ObjectProperty<XmlC14nMethod> method = new SimpleObjectProperty<>();
 
+    /**
+     * XmlC14nMethod enumeration bound to combo box.
+     */
+    private ObjectProperty<XmlC14nMethod> xmlC14nMethod = new SimpleObjectProperty<>();
+
+    /**
+     * Getter for source file representing selected file for transformation.
+     * @return the source file object
+     */
 	public File getSourceFile() {
 		return sourceFile.get();
 	}
 
+    /**
+     * Setter for source file.
+     * @param sourceFile selected source file
+     */
 	public void setSourceFile(File sourceFile) {
 		this.sourceFile.set(sourceFile);
 	}
 
+    /**
+     * Property object of source file used for binding
+     * @return the source file object wrapped in object property
+     */
 	public ObjectProperty<File> sourceFileProperty() {
 		return sourceFile;
 	}
 
-    public ObjectProperty<XmlC14nMethod> methodProperty() {
-        return method;
+    /**
+     * Property object of "xml c14n method" used for binding
+     * @return the canonicalization method enumeration wrapped in object property
+     */
+    public ObjectProperty<XmlC14nMethod> xmlC14nMethodProperty() {
+        return xmlC14nMethod;
     }
 
 }
