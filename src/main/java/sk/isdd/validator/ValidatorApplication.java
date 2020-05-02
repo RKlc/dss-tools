@@ -1,37 +1,47 @@
 package sk.isdd.validator;
 
-import javafx.scene.layout.StackPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sk.isdd.validator.controller.MasterController;
 
 
+/**
+ * JavaFX application initialization
+ * <p>
+ * User interface is divided into tabs and supported by different controllers.
+ * There is single master controller to propagate common features.
+ */
 public class ValidatorApplication extends Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorApplication.class);
 
+    /**
+     * Stage (graphical workspace) dedicated to this application
+     */
     private Stage stage;
 
+    /**
+     * JavaFX application starting point with given workspace
+     *
+     * @param stage the stage for all controllers
+     */
     @Override
     public void start(Stage stage) {
 
-        this.stage = stage;
-        this.stage.setTitle("DSS Tools");
-        this.stage.setResizable(true);
-        this.stage.getIcons().add(new Image("/validator-logo.png"));
-        this.stage.setMinWidth(800);
-        this.stage.setMinHeight(600);
+        // Basic window setup
+        stage.setTitle("DSS Tools");
+        stage.setResizable(true);
+        stage.getIcons().add(new Image("/validator-logo.png"));
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
 
-        initLayout();
-    }
-
-    private void initLayout() {
+        // Initialize layout
         try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxml/master-screen.fxml"));
@@ -43,8 +53,10 @@ public class ValidatorApplication extends Application {
 			stage.setScene(scene);
 			stage.show();
 
+			// Single stage passed down to all controllers where it is customized and used
             MasterController controller = loader.getController();
             controller.setStage(stage);
+            this.stage = stage;
 
         } catch (Exception e) {
             throw new ApplicationException("Unable to initialize layout : " + e.getMessage(), e);
