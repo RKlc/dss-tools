@@ -7,15 +7,15 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="sk.isdd.validator.controller.MasterController"
          fx:id="tabPane"
-         minWidth="800.0" minHeight="400.0"
+         minWidth="800.0" minHeight="600.0"
          maxHeight="-Infinity" maxWidth="-Infinity"
-         prefWidth="800.0" prefHeight="600.0">
+         prefWidth="800.0" prefHeight="600.0"
+         tabClosingPolicy="UNAVAILABLE">
 
     <tabs>
         <Tab fx:id="tabDigest" text="XML Digest">
+            <!-- Important: id "digest" auto wires to field MasterController.digestController -->
             <fx:include fx:id="digest" source="digest-screen.fxml" />
-        </Tab>
-        <Tab text="Other tab">
         </Tab>
     </tabs>
 </TabPane>

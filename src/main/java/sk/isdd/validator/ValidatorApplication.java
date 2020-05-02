@@ -25,6 +25,8 @@ public class ValidatorApplication extends Application {
         this.stage.setTitle("DSS Tools");
         this.stage.setResizable(true);
         this.stage.getIcons().add(new Image("/validator-logo.png"));
+        this.stage.setMinWidth(800);
+        this.stage.setMinHeight(600);
 
         initLayout();
     }
@@ -45,7 +47,7 @@ public class ValidatorApplication extends Application {
             controller.setStage(stage);
 
         } catch (Exception e) {
-            throw new ApplicationException("Unable to initialize layout: " + e.getMessage(), e);
+            throw new ApplicationException("Unable to initialize layout : " + e.getMessage(), e);
         }
     }
 

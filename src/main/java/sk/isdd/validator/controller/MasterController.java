@@ -3,6 +3,7 @@ package sk.isdd.validator.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sk.isdd.validator.ApplicationException;
 
@@ -24,6 +25,8 @@ public class MasterController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+
+        // initialize children tabs
         if (digestController == null) {
             throw new ApplicationException("DigestController is not loaded");
         }
@@ -36,6 +39,5 @@ public class MasterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }
