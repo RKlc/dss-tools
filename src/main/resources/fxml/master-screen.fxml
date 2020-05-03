@@ -5,14 +5,14 @@
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="sk.isdd.validator.controller.MasterController"
-         fx:id="tabPane"
+         fx:id="appWindow"
          maxHeight="-Infinity" maxWidth="-Infinity"
          tabClosingPolicy="UNAVAILABLE">
 
     <tabs>
         <Tab fx:id="tabDigest" text="Message Digest">
-            <!-- Important: id "digest" is auto-wired to field MasterController.digestController -->
-            <!-- TODO: "digest" reference is auto-weird; Documented and working behavior but it is seen as unresolved by the InteliJ IDEA. -->
+            <!-- Important: id "digest" is autoinjected to field MasterController.digestController -->
+            <!-- It is documented and it works but it is seen as unresolved by the InteliJ IDEA 2020.1 -->
             <fx:include fx:id="digest" source="digest-screen.fxml" />
         </Tab>
     </tabs>

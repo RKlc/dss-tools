@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,14 +23,14 @@ public class ValidatorApplication extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorApplication.class);
 
     /**
-     * Stage (graphical workspace) dedicated to this application.
+     * First stage (graphical window) created for this application.
      */
     private Stage stage;
 
     /**
-     * JavaFX application starting point with given workspace.
+     * JavaFX application starting point with given window.
      *
-     * @param stage the stage for all controllers
+     * @param stage an auto-initialized first stage (main window) for all the controllers to use
      */
     @Override
     public void start(Stage stage) {
@@ -39,20 +40,27 @@ public class ValidatorApplication extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxml/master-screen.fxml"));
 
+			// Attach scene to stage
             Scene scene = new Scene(new StackPane());
             scene.setRoot(loader.load());
 			scene.getStylesheets().add("/styles/style.css");
-
 			stage.setScene(scene);
-			stage.show();
 
-			// Single stage passed down to all controllers where it is customized and used
+            // Customize the stage
+            stage.setTitle("DSS Tools");
+            stage.setMinWidth(800);
+            stage.setMinHeight(600);
+            stage.setResizable(true);
+            stage.getIcons().add(new Image("/validator-logo.png"));
+            stage.show();
+
+			// Send stage to master controller
             MasterController controller = loader.getController();
             controller.setStage(stage);
             this.stage = stage;
 
         } catch (Exception e) {
-            throw new ApplicationException("Unable to initialize layout : " + e.getMessage(), e);
+            throw new ApplicationException("Unable to initialize layout: " + e.getMessage(), e);
         }
     }
 
