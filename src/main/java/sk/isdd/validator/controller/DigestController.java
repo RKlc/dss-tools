@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * Controller for message digests
+ * Controller for message digests.
  * <p>
  * User can select source file and optional c14n canonical transformation.
  * All the digests are calculated at once, over transformed source file.

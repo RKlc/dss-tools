@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Enumeration of supported XML canonicalization (c14n) methods
+ * Enumeration of supported XML canonicalization (c14n) methods.
  *
  * The word "CanonicalizatioN" is often shortened to "C14N" - the letters "C" and "N" with 14 other letters in between ;)
  * <p>
@@ -73,11 +73,11 @@ public enum XmlC14nMethod implements UriBasedEnum {
     private final String uri;
 
     /**
-     * Enumeration constructor
+     * Enumeration constructor.
      *
-     * @param name  the string representation of enumeration's name (e.g. for C14N_OMIT_COMMENTS enum it must be "C14N_OMIT_COMMENTS")
-     * @param text  unique common reference text (can be used for combo box bindings or translations)
-     * @param uri   the uri identifier as specified by W3C; It is referenced within XML documents
+     * @param name the string representation of enumeration's name (e.g. for C14N_OMIT_COMMENTS enum it must be "C14N_OMIT_COMMENTS")
+     * @param text unique common reference text (can be used for combo box bindings or translations)
+     * @param uri  the uri identifier as specified by W3C; It is referenced within XML documents
      */
     XmlC14nMethod(final String name, final String text, final String uri) {
         this.name = name;
@@ -86,7 +86,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Self initializing static registry for reverse lookups of enums
+     * Self initializing static registry for reverse lookups of enums.
      */
     private static class Registry {
 
@@ -94,39 +94,27 @@ public enum XmlC14nMethod implements UriBasedEnum {
         private static final Map<String, XmlC14nMethod> TEXT_METHODS = registerTextMethods();
         private static final Map<String, XmlC14nMethod> URI_METHODS = registerUriMethods();
 
-        /**
-         * Returns hash map of names associated with enums
-         */
         private static Map<String, XmlC14nMethod> registerMethods() {
 
             final Map<String, XmlC14nMethod> map = new HashMap<>();
-
             for (final XmlC14nMethod method : values()) {
                 map.put(method.name, method);
             }
             return map;
         }
 
-        /**
-         * Returns hash map of common texts associated with enums
-         */
         private static Map<String, XmlC14nMethod> registerTextMethods() {
 
             final Map<String, XmlC14nMethod> map = new HashMap<>();
-
             for (final XmlC14nMethod method : values()) {
                 map.put(method.text, method);
             }
             return map;
         }
 
-        /**
-         * Returns hash map of uris associated with enums
-         */
         private static Map<String, XmlC14nMethod> registerUriMethods() {
 
             final Map<String, XmlC14nMethod> map = new HashMap<>();
-
             for (final XmlC14nMethod method : values()) {
                 map.put(method.uri, method);
             }
@@ -138,11 +126,9 @@ public enum XmlC14nMethod implements UriBasedEnum {
     /**
      * Returns the "c14n method" enum associated with the given name. Find enum by its name.
      *
-     * @param name
-     * 				the c14n method name (e.g. "C14N_OMIT_COMMENTS")
+     * @param name the c14n method name (e.g. "C14N_OMIT_COMMENTS")
      * @return the corresponding {@code XmlC14nMethod} object linked to the given name
-     * @throws IllegalArgumentException
-     *				if the given name doesn't match any name
+     * @throws IllegalArgumentException if the given name doesn't match any name
      */
     public static XmlC14nMethod forName(final String name) {
 
@@ -156,10 +142,8 @@ public enum XmlC14nMethod implements UriBasedEnum {
     /**
      * Returns the "c14n method" enum associated with the given name or default value.
      *
-     * @param name
-     *				the c14n method name (e.g. "C14N_OMIT_COMMENTS")
-     * @param defaultValue
-     *				The default value for the {@code XmlC14nMethod}
+     * @param name         the c14n method name (e.g. "C14N_OMIT_COMMENTS")
+     * @param defaultValue The default value for the {@code XmlC14nMethod}
      * @return the corresponding {@code XmlC14nMethod} object or the default value
      */
     public static XmlC14nMethod forName(final String name, final XmlC14nMethod defaultValue) {
@@ -172,10 +156,9 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Returns indication if the canonicalization is supported based on its name
+     * Returns indication if the canonicalization is supported based on its name.
      *
-     * @param name
-     *              canonicalization name in question
+     * @param name canonicalization name in question
      * @return TRUE if chosen canonicalization is supported, FALSE otherwise
      */
     public static boolean isSupportedName(final String name) {
@@ -184,14 +167,12 @@ public enum XmlC14nMethod implements UriBasedEnum {
 
     /**
      * Returns the c14n method associated with its common name. Find enum by its common text representation.
-     *
+     * <p>
      * It can be used for combo boxes or translated by resource bundles.
      *
-     * @param text
-     *              common canonicalization name (e.g. "incl-c14n")
+     * @param text common canonicalization name (e.g. "incl-c14n")
      * @return the {@code XmlC14nMethod} instance linked to the given name
-     * @throws IllegalArgumentException
-     *              if c14n method is not found
+     * @throws IllegalArgumentException if c14n method is not found
      */
     public static XmlC14nMethod forText(final String text) {
 
@@ -205,10 +186,8 @@ public enum XmlC14nMethod implements UriBasedEnum {
     /**
      * Returns the c14n method associated with its common name or default value.
      *
-     * @param text
-     *              common canonicalization name (e.g. "incl-c14n")
-     * @param defaultValue
-     *				The default value for the {@code XmlC14nMethod}
+     * @param text         common canonicalization name (e.g. "incl-c14n")
+     * @param defaultValue The default value for the {@code XmlC14nMethod}
      * @return the {@code XmlC14nMethod} instance linked to the given name
      */
     public static XmlC14nMethod forText(final String text, final XmlC14nMethod defaultValue) {
@@ -221,10 +200,9 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Returns indication if the canonicalization is supported based on its name
+     * Returns indication if the canonicalization is supported based on its name.
      *
-     * @param name
-     *              canonicalization name in question
+     * @param name canonicalization name in question
      * @return TRUE if chosen canonicalization is supported, FALSE otherwise
      */
     public static boolean isSupportedText(final String name) {
@@ -234,11 +212,9 @@ public enum XmlC14nMethod implements UriBasedEnum {
     /**
      * Returns the canonicalization associated to the given W3C uri (find enum by its W3C uri).
      *
-     * @param uri
-     *              the canonicalization uri defined by W3C specification
+     * @param uri the canonicalization uri defined by W3C specification
      * @return the c14n method linked to the given uri
-     * @throws IllegalArgumentException
-     *              if the uri doesn't match any c14n method
+     * @throws IllegalArgumentException if the uri doesn't match any c14n method
      */
     public static XmlC14nMethod forUri(final String uri) {
 
@@ -253,13 +229,10 @@ public enum XmlC14nMethod implements UriBasedEnum {
      * Returns the c14n method associated to the given W3C uri or the default one if the c14n
      * method does not exist.
      *
-     * @param uri
-     *              the c14n method uri
-     * @param defaultValue
-     *              The default enum
+     * @param uri          the c14n method uri
+     * @param defaultValue The default enum
      * @return the c14n method linked to the given uri
-     * @throws IllegalArgumentException
-     *              if the uri doesn't match any c14n method
+     * @throws IllegalArgumentException if the uri doesn't match any c14n method
      */
     public static XmlC14nMethod forUri(final String uri, final XmlC14nMethod defaultValue) {
 
@@ -271,10 +244,9 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Returns indication if the canonicalization is supported based on its uri
+     * Returns indication if the canonicalization is supported based on its URI.
      *
-     * @param uri
-     *              canonicalization uri in question
+     * @param uri canonicalization uri in question
      * @return TRUE if chosen canonicalization is supported, FALSE otherwise
      */
     public static boolean isSupportedUri(final String uri) {
@@ -282,7 +254,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Get the c14n method name
+     * Get the canonicalization enum name.
      *
      * @return the c14n method name
      */
@@ -291,7 +263,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Get common c14n method name
+     * Get common c14n method name.
      *
      * @return common c14n method name
      */
@@ -300,7 +272,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Get common c14n method name as string representation (for combo boxes and translations)
+     * Get common c14n method name as string representation (for combo boxes and translations).
      *
      * @return common c14n method name
      */
@@ -309,7 +281,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Get the c14n method uri
+     * Get the c14n method uri.
      *
      * @return the c14n method uri
      */

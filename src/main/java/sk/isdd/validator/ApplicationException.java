@@ -1,5 +1,10 @@
 package sk.isdd.validator;
 
+/**
+ * Basic application exception handling.
+ *
+ * Calls super() with various parameters.
+ */
 public class ApplicationException extends RuntimeException {
 
 	private static final long serialVersionUID = 1289723598612345L;
