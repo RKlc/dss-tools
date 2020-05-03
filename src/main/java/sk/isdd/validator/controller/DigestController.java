@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 /**
  * Controller for message digests.
  * <p>

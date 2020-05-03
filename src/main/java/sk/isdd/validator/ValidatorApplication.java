@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sk.isdd.validator.controller.MasterController;
 
@@ -23,24 +22,17 @@ public class ValidatorApplication extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorApplication.class);
 
     /**
-     * Stage (graphical workspace) dedicated to this application
+     * Stage (graphical workspace) dedicated to this application.
      */
     private Stage stage;
 
     /**
-     * JavaFX application starting point with given workspace
+     * JavaFX application starting point with given workspace.
      *
      * @param stage the stage for all controllers
      */
     @Override
     public void start(Stage stage) {
-
-        // Basic window setup
-        stage.setTitle("DSS Tools");
-        stage.setResizable(true);
-        stage.getIcons().add(new Image("/validator-logo.png"));
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
 
         // Initialize layout
         try {
