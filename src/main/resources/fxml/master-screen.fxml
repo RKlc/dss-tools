@@ -10,9 +10,9 @@
          tabClosingPolicy="UNAVAILABLE">
 
     <tabs>
-        <Tab fx:id="tabDigest" text="XML Digest">
-            <!-- Important: id "digest" auto wires to field MasterController.digestController -->
-            <!-- TODO: "digest" reference has weird but documented and working behavior, however it is seen as unresolved by the InteliJ IDEA -->
+        <Tab fx:id="tabDigest" text="Message Digest">
+            <!-- Important: id "digest" is auto-wired to field MasterController.digestController -->
+            <!-- TODO: "digest" reference is auto-weird; Documented and working behavior but it is seen as unresolved by the InteliJ IDEA. -->
             <fx:include fx:id="digest" source="digest-screen.fxml" />
         </Tab>
     </tabs>

@@ -92,7 +92,7 @@ public class DigestController implements Initializable {
                     lblMethodUri.setText(newValue.getUri());
                 }
         );
-        cbXmlC14nMethod.setValue(XmlC14nMethod.NONE);
+        cbXmlC14nMethod.setValue(XmlC14nMethod.C14N_NONE);
 
 
         // init calculation button

@@ -16,14 +16,21 @@
 		<HBox styleClass="hbox-style">
 			<children>
 				<Label styleClass="label-style" text="Source file" />
-				<Button fx:id="btnSourceFile" prefWidth="240.0" mnemonicParsing="false" text="Select file..." />
+				<Button fx:id="btnSourceFile" mnemonicParsing="false" text="Select file..." />
 			</children>
 		</HBox>
 
         <HBox styleClass="hbox-style">
             <children>
+                <Label styleClass="label-style" text="File information" />
+                <Label fx:id="lblSourceFileInfo"  />
+            </children>
+        </HBox>
+
+        <HBox styleClass="hbox-style">
+            <children>
                 <Label styleClass="label-style" text="Transformation" />
-                <ComboBox fx:id="cbXmlC14nMethod" prefWidth="240.0" />
+                <ComboBox fx:id="cbXmlC14nMethod" />
                 <Label fx:id="lblMethodUri"  />
             </children>
         </HBox>
@@ -32,7 +39,6 @@
 
 		<HBox styleClass="hbox-style">
 			<children>
-				<Label styleClass="label-style" />
 				<Button fx:id="btnCalculate" mnemonicParsing="false" text="Calculate" />
                 <Button fx:id="btnSaveAs" mnemonicParsing="false" text="Save Transformed As" />
 			</children>
