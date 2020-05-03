@@ -10,6 +10,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sk.isdd.validator.controller.MasterController;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 /**
  * JavaFX GUI application  with tools for transformation and validation around digital signatures.
@@ -30,7 +33,7 @@ public class ValidatorApplication extends Application {
     /**
      * JavaFX application starting point with given window.
      *
-     * @param stage an auto-initialized first stage (main window) for all the controllers to use
+     * @param stage system initialized primary stage (main window, more can be added, if needed)
      */
     @Override
     public void start(Stage stage) {
@@ -38,6 +41,12 @@ public class ValidatorApplication extends Application {
         // Initialize layout
         try {
 			FXMLLoader loader = new FXMLLoader();
+
+            // I18n support
+            ResourceBundle lang = ResourceBundle.getBundle("lang.messages", Locale.getDefault());
+            loader.setResources(lang);
+
+            // Load root layout
 			loader.setLocation(getClass().getResource("/fxml/master-screen.fxml"));
 
 			// Attach scene to stage
@@ -47,7 +56,7 @@ public class ValidatorApplication extends Application {
 			stage.setScene(scene);
 
             // Customize the stage
-            stage.setTitle("DSS Tools");
+            stage.setTitle(lang.getString("appTitle"));
             stage.setMinWidth(800);
             stage.setMinHeight(600);
             stage.setResizable(true);

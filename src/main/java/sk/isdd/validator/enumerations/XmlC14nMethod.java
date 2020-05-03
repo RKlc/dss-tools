@@ -1,8 +1,13 @@
 package sk.isdd.validator.enumerations;
 
+import javafx.fxml.FXML;
+import sk.isdd.validator.fx.I18nEnum;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Enumeration of supported XML canonicalization (c14n) methods.
@@ -76,7 +81,7 @@ public enum XmlC14nMethod implements UriBasedEnum {
      * Enumeration constructor.
      *
      * @param name the string representation of enumeration's name (e.g. for C14N_OMIT_COMMENTS enum it must be "C14N_OMIT_COMMENTS")
-     * @param text unique common reference text (can be used for combo box bindings or translations)
+     * @param text unique common reference text (suitable for combo box bindings or translations)
      * @param uri  the uri identifier as specified by W3C; It is referenced within XML documents
      */
     XmlC14nMethod(final String name, final String text, final String uri) {
@@ -272,12 +277,16 @@ public enum XmlC14nMethod implements UriBasedEnum {
     }
 
     /**
-     * Get common c14n method name as string representation (for combo boxes and translations).
+     * Get common c14n method name as localized string
+     * <p>
+     * Strings will be translated from names to localized language messages if resource bundles are set.
+     * Otherwise common name will be returned from common text.
      *
-     * @return common c14n method name
+     * @return common translated canonicalization name (or just common name)
      */
-    public String toString() {
-        return text;
+    public String toString()
+    {
+        return I18nEnum.getString(text);
     }
 
     /**

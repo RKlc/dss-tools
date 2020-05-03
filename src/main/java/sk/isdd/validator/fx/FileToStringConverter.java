@@ -1,7 +1,8 @@
 package sk.isdd.validator.fx;
 
-import java.io.File;
 import javafx.util.StringConverter;
+
+import java.io.File;
 
 /**
  * Helper for File name conversion to string.
@@ -14,7 +15,7 @@ public class FileToStringConverter extends StringConverter<File> {
 	@Override
 	public String toString(File object) {
 		if (object == null){
-			return "Select file...";
+			return I18nMsg.getString("emptySelectFile");
 		}
 		return object.getAbsolutePath();
 	}

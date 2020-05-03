@@ -2,8 +2,6 @@ package sk.isdd.validator.controller;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
@@ -11,17 +9,18 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.c14n.Canonicalizer;
+import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
 import sk.isdd.validator.fx.FileToStringConverter;
+import sk.isdd.validator.fx.I18nMsg;
 import sk.isdd.validator.model.DigestModel;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
@@ -76,6 +75,9 @@ public class DigestController {
 	@FXML
 	private Button btnSaveAs;
 
+    @FXML
+    private ResourceBundle lang;
+
     /**
      * Stage (window) used for this controller.
      */
@@ -96,23 +98,24 @@ public class DigestController {
 	public void initialize() {
 		model = new DigestModel();
 
-        // init loading button for XML source file
+        // init loading button for source file
 		btnSourceFile.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Select source file");
-			//File sourceFile = fileChooser.showOpenDialog(stage);
-            File sourceFile = fileChooser.showOpenDialog(((Node) event.getTarget()).getScene().getWindow());
+			fileChooser.setTitle(I18nMsg.getString("titleSelectSourceFile"));
+			File sourceFile = fileChooser.showOpenDialog(stage);
 			model.setSourceFile(sourceFile);
 		});
 
+		// bind its text label to filename
 		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new FileToStringConverter());
-        BooleanBinding isMandatoryFieldsEmpty = model.sourceFileProperty().isNull();
+        BooleanBinding isSourceFileEmpty = model.sourceFileProperty().isNull();
 
         // init c14n combo box
+        // TODO: limit combo box values depending on type of the source file
         cbXmlC14nMethod.valueProperty().bindBidirectional(model.xmlC14nMethodProperty());
         cbXmlC14nMethod.getItems().setAll(XmlC14nMethod.values());
 
-        // add listener to c14n combo box value and update adjacent label with its uri value
+        // add listener to c14n combo box value to update adjacent label with its URI value
         cbXmlC14nMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
                     lblMethodUri.setText(newValue.getUri());
                 }
@@ -121,7 +124,7 @@ public class DigestController {
 
 
         // init calculation button
-		btnCalculate.disableProperty().bind(isMandatoryFieldsEmpty);
+		btnCalculate.disableProperty().bind(isSourceFileEmpty);
 
 		// TODO: needs to go to the model
 		btnCalculate.setOnAction(event -> {
@@ -129,21 +132,10 @@ public class DigestController {
 			File sourceFile = model.getSourceFile();
 
 			//init array with file length
-			byte[] sourceArray = new byte[(int) sourceFile.length()];
-
-			FileInputStream fis = null;
+			byte[] sourceArray;
 
 			try {
-				fis = new FileInputStream(sourceFile);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				return;
-			}
-
-			try {
-				//read file into bytes[]
-				fis.read(sourceArray);
-				fis.close();
+                sourceArray = JavaUtils.getBytesFromFile(sourceFile.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
 				return;

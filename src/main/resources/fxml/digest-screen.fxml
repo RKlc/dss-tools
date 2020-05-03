@@ -15,21 +15,21 @@
 	<children>
 		<HBox styleClass="hbox-style">
 			<children>
-				<Label styleClass="label-style" text="Source file" />
-				<Button fx:id="btnSourceFile" mnemonicParsing="false" text="Select file..." />
+				<Label styleClass="label-style" text="%lblSourceFile" />
+				<Button fx:id="btnSourceFile" mnemonicParsing="false" text="%emptySelectFile" />
 			</children>
 		</HBox>
 
         <HBox styleClass="hbox-style">
             <children>
-                <Label styleClass="label-style" text="File information" />
+                <Label styleClass="label-style" text="%lblSourceFileInfo" />
                 <Label fx:id="lblSourceFileInfo"  />
             </children>
         </HBox>
 
         <HBox styleClass="hbox-style">
             <children>
-                <Label styleClass="label-style" text="Transformation" />
+                <Label styleClass="label-style" text="%lblTransformation" />
                 <ComboBox fx:id="cbXmlC14nMethod" />
                 <Label fx:id="lblMethodUri"  />
             </children>
@@ -39,8 +39,8 @@
 
 		<HBox styleClass="hbox-style">
 			<children>
-				<Button fx:id="btnCalculate" mnemonicParsing="false" text="Calculate" />
-                <Button fx:id="btnSaveAs" mnemonicParsing="false" text="Save Transformed As" />
+				<Button fx:id="btnCalculate" mnemonicParsing="false" text="%btnCalculate" />
+                <Button fx:id="btnSaveAs" mnemonicParsing="false" text="%btnSaveAs" />
 			</children>
 		</HBox>
 

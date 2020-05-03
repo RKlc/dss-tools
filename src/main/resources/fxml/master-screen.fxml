@@ -10,7 +10,7 @@
          tabClosingPolicy="UNAVAILABLE">
 
     <tabs>
-        <Tab fx:id="tabDigest" text="Message Digest">
+        <Tab fx:id="tabDigest" text="%tabDigestTitle">
             <!-- Important: id "digest" is autoinjected to field MasterController.digestController -->
             <!-- It is documented and it works but it is seen as unresolved by the InteliJ IDEA 2020.1 -->
             <fx:include fx:id="digest" source="digest-screen.fxml" />
