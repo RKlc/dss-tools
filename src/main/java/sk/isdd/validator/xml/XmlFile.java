@@ -1,6 +1,9 @@
 package sk.isdd.validator.xml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import sk.isdd.validator.ValidatorApplication;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +15,8 @@ import java.text.DecimalFormat;
  * Extending File with basic XML functionality and XML content.
  */
 public class XmlFile extends File {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmlFile.class);
 
     /**
      * Document parsed from file (org.w3c.dom.Document).
@@ -49,6 +54,7 @@ public class XmlFile extends File {
             xmlDocument = db.parse(this);
 
         } catch (Exception e) {
+            LOG.debug("XML parser stopped: " + e.getMessage());
             xmlDocument = null;
         }
 
@@ -66,7 +72,9 @@ public class XmlFile extends File {
             if (this.isFile() && this.canRead()) {
                 return true;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            LOG.debug("File is not readable: " + e.getMessage());
+        }
 
         return false;
     }
@@ -102,9 +110,9 @@ public class XmlFile extends File {
         if (length() <= 0) {
             return "0 B";
         }
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB", "PB"};
         int digitGroups = (int) (Math.log10(length()) / Math.log10(1024));
-        return new DecimalFormat("# ##0.#").format(length() / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        return new DecimalFormat("#,##0.#").format(length() / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
 }

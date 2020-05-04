@@ -73,6 +73,20 @@ public class ValidatorApplication extends Application {
         }
     }
 
+    /**
+     * Logging all uncaught exceptions from threads
+     */
+    @Override
+    public void init() throws Exception {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                LOG.error("Exception in thread \"" + t.getName() + "\"", e);
+            }
+        });
+        super.init();
+    }
+
     public static void main(String[] args) {
         launch(ValidatorApplication.class, args);
     }

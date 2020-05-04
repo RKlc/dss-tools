@@ -12,9 +12,6 @@ import sk.isdd.validator.xml.XmlFile;
  */
 public class DigestModel {
 
-    /**
-     * Default logger
-     */
 	private static final Logger LOG = LoggerFactory.getLogger(DigestModel.class);
 
     /**
