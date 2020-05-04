@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.net.URI;
+import java.text.DecimalFormat;
 
 /**
  * Extending File with basic XML functionality and XML content.
@@ -57,7 +58,7 @@ public class XmlFile extends File {
     /**
      * Test if file is normal file and has reading permissions.
      *
-     * @return <code>true</code> is file is readable
+     * @return <code>true</code> if file is readable
      */
     public boolean isReadableFile() {
 
@@ -88,6 +89,22 @@ public class XmlFile extends File {
      */
     public Document getXmlDocument() {
         return xmlDocument;
+    }
+
+    /**
+     * Returns the length of file in human readable format including appropriate
+     * unit (kB, MB, etc) depending on its size.
+     *
+     * @return formatted file size including unit
+     */
+    public String readableFileSize() {
+
+        if (length() <= 0) {
+            return "0 B";
+        }
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
+        int digitGroups = (int) (Math.log10(length()) / Math.log10(1024));
+        return new DecimalFormat("# ##0.#").format(length() / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
 }
