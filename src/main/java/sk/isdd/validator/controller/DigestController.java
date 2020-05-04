@@ -13,11 +13,11 @@ import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
-import sk.isdd.validator.fx.XmlFileToStringConverter;
+import sk.isdd.validator.xml.XmlFileToStringConverter;
 import sk.isdd.validator.fx.I18nMsg;
-import sk.isdd.validator.fx.XmlFileToInfoConverter;
+import sk.isdd.validator.xml.XmlFileToInfoConverter;
 import sk.isdd.validator.model.DigestModel;
-import sk.isdd.validator.model.XmlFile;
+import sk.isdd.validator.xml.XmlFile;
 
 import java.io.File;
 import java.io.IOException;

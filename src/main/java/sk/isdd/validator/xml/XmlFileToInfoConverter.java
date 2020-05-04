@@ -1,7 +1,7 @@
-package sk.isdd.validator.fx;
+package sk.isdd.validator.xml;
 
 import javafx.util.StringConverter;
-import sk.isdd.validator.model.XmlFile;
+import sk.isdd.validator.fx.I18nMsg;
 
 /**
  * Helper to convert selected information about state of XmlFile into string.

@@ -1,4 +1,4 @@
-package sk.isdd.validator.model;
+package sk.isdd.validator.xml;
 
 import org.w3c.dom.Document;
 
