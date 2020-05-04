@@ -1,30 +1,29 @@
 package sk.isdd.validator.enumerations;
 
-import javafx.fxml.FXML;
 import sk.isdd.validator.fx.I18nEnum;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * Enumeration of supported XML canonicalization (c14n) methods.
  *
  * The word "CanonicalizatioN" is often shortened to "C14N" - the letters "C" and "N" with 14 other letters in between ;)
- * <p>
- * Canonicalization is a method for generating a physical representation, the canonical form, of an XML document
+ *
+ * <p> Canonicalization is a method for generating a physical representation, the canonical form, of an XML document
  * that accounts for syntactic changes permitted by the XML specification. In other words, no matter what changes
  * could be made to a given XML document under transmission, the canonical form will always be identical, byte-for-byte.
  * This byte sequence is critical when signing an XML document or verifying its signature.
- * <p>
- * Each c14n method comes in pair. One will remove comments in the process of transforming XML and the other keeps them.
+ *
+ * <p> Each c14n method comes in pair. One will remove comments in the process of transforming XML and the other keeps them.
  * Hence enums have suffix OMIT_COMMENTS resp. WITH_COMMENTS.
- * <p>
- * There is also "Exclusive Canonicalization" (v 1.0 and 1.1) which better fits enveloped SOAP signatures
+ *
+ * <p> There is also "Exclusive Canonicalization" (v 1.0 and 1.1) which better fits enveloped SOAP signatures
  * because it doesn't invalidate the signature when you wrap something that is already signed.
  * There are some key differences between Exclusive and Inclusive c14n, they are not backward compatible:
+ *
  * <ul>
  *     <li> In the inclusive treatment all namespaces on a node are made explicit in the canonical form.
  *     <li> Such a behaviour is problematic for enveloped signatures, where unrelated namespace can be introduced
@@ -32,8 +31,8 @@ import java.util.ResourceBundle;
  *     <li> Exclusive treatment makes nodes explicit only for utilized namespaces.
  *     <li> Exclusive form does not copy the xml:lang attribute (inclusive form does).
  * </ul>
- * <p>
- * C14N11 stands for Canonical XML Version 1.1. It address issues with inheritance within namespaces, does not inherit xml:id
+ *
+ * <p> C14N11 stands for Canonical XML Version 1.1. It address issues with inheritance within namespaces, does not inherit xml:id
  * and also processes xml:base URI path properly, among other things.
  */
 public enum XmlC14nMethod implements UriBasedEnum {
@@ -172,8 +171,8 @@ public enum XmlC14nMethod implements UriBasedEnum {
 
     /**
      * Returns the c14n method associated with its common name. Find enum by its common text representation.
-     * <p>
-     * It can be used for combo boxes or translated by resource bundles.
+     *
+     * <p> It can be used for combo boxes or translated by resource bundles.
      *
      * @param text common canonicalization name (e.g. "incl-c14n")
      * @return the {@code XmlC14nMethod} instance linked to the given name
@@ -278,8 +277,8 @@ public enum XmlC14nMethod implements UriBasedEnum {
 
     /**
      * Get common c14n method name as localized string
-     * <p>
-     * Strings will be translated from names to localized language messages if resource bundles are set.
+     *
+     * <p> Strings will be translated from names to localized language messages if resource bundles are set.
      * Otherwise common name will be returned from common text.
      *
      * @return common translated canonicalization name (or just common name)

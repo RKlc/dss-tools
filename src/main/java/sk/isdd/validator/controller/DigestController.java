@@ -13,20 +13,20 @@ import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
-import sk.isdd.validator.fx.FileToStringConverter;
+import sk.isdd.validator.fx.XmlFileToStringConverter;
 import sk.isdd.validator.fx.I18nMsg;
+import sk.isdd.validator.fx.XmlFileToInfoConverter;
 import sk.isdd.validator.model.DigestModel;
+import sk.isdd.validator.model.XmlFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 /**
  * Controller for message digests.
- * <p>
- * User can select source file and optional c14n canonical transformation.
+ *
+ * <p> User can select source file and optional c14n canonical transformation.
  * All the digests are calculated at once, over transformed source file.
  * Resulting XML file can be saved as new file.
  * <ul>
@@ -64,7 +64,7 @@ public class DigestController {
 	private Button btnSourceFile;
 
     /**
-     * Calculation button sets the processing task for message digest.
+     * Calculation button starts the processing task for message digest.
      */
 	@FXML
 	private Button btnCalculate;
@@ -90,8 +90,8 @@ public class DigestController {
 
     /**
      * Initialization of this controller for message digest processing (auto invoked).
-     * <p>
-     * It has access to all the @FXML annotated resources, constructor does not.
+     *
+     * <p> It has access to all the @FXML annotated resources, constructor does not.
      * However there si no access to the {@code this.stage} and as such cannot be used for output.
      */
     @FXML
@@ -102,12 +102,18 @@ public class DigestController {
 		btnSourceFile.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle(I18nMsg.getString("titleSelectSourceFile"));
-			File sourceFile = fileChooser.showOpenDialog(stage);
-			model.setSourceFile(sourceFile);
+            File file = fileChooser.showOpenDialog(stage);
+            if (file == null) {
+                model.setSourceFile(null);
+            } else {
+                model.setSourceFile(new XmlFile(file.getAbsolutePath()));
+            }
 		});
 
-		// bind its text label to filename
-		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new FileToStringConverter());
+		// bind text label and XML info
+		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToStringConverter());
+        lblSourceFileInfo.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToInfoConverter());
+
         BooleanBinding isSourceFileEmpty = model.sourceFileProperty().isNull();
 
         // init c14n combo box

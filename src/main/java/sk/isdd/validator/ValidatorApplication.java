@@ -16,8 +16,8 @@ import java.util.ResourceBundle;
 
 /**
  * JavaFX GUI application  with tools for transformation and validation around digital signatures.
- * <p>
- * User interface is divided into tabs which support different groups of functionalities.
+ *
+ * <p> User interface is divided into tabs which support different groups of functionalities.
  * Each tab is controlled by separate controller.
  * There is single master controller to propagate common features.
  */

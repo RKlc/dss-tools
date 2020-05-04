@@ -7,8 +7,8 @@ import java.util.Map;
 
 /**
  * Enumeration of supported Message Digest algorithms.
- * <p>
- * Support for {@link java.security.MessageDigest} algorithms such as SHA256, SHA256, MD5 etc.
+ *
+ * <p> Support for {@link java.security.MessageDigest} algorithms such as SHA256, SHA256, MD5 etc.
  */
 public enum DigestAlgorithm implements UriBasedEnum, OidBasedEnum {
 

@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
 
-import java.io.File;
-
 /**
  * Data representation and transformation support for calculating message digests.
  */
@@ -19,9 +17,9 @@ public class DigestModel {
 	private static final Logger LOG = LoggerFactory.getLogger(DigestModel.class);
 
     /**
-     * Source file selected for transformation bound to sourceFile button.
+     * XML source file wrapped by binder Property (bound to sourceFile button).
      */
-	private ObjectProperty<File> sourceFile = new SimpleObjectProperty<>();
+	private ObjectProperty<XmlFile> sourceFile = new SimpleObjectProperty<>();
 
     /**
      * XmlC14nMethod enumeration bound to combo box.
@@ -32,7 +30,7 @@ public class DigestModel {
      * Getter for source file representing selected file for transformation.
      * @return the source file object
      */
-	public File getSourceFile() {
+	public XmlFile getSourceFile() {
 		return sourceFile.get();
 	}
 
@@ -40,17 +38,17 @@ public class DigestModel {
      * Setter for source file.
      * @param sourceFile selected source file
      */
-	public void setSourceFile(File sourceFile) {
+	public void setSourceFile(XmlFile sourceFile) {
 		this.sourceFile.set(sourceFile);
 	}
 
     /**
-     * Property object of source file used for binding
-     * @return the source file object wrapped in object property
+     * Property object of as XML source file used for binding
+     * @return the xml source file object wrapped in object property
      */
-	public ObjectProperty<File> sourceFileProperty() {
-		return sourceFile;
-	}
+    public ObjectProperty<XmlFile> sourceFileProperty() {
+        return sourceFile;
+    }
 
     /**
      * Property object of "xml c14n method" used for binding
