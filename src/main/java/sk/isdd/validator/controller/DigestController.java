@@ -39,6 +39,12 @@ public class DigestController {
 	private static final Logger LOG = LoggerFactory.getLogger(DigestController.class);
 
     /**
+     * Access to translations.
+     */
+    @FXML
+    private ResourceBundle lang;
+
+    /**
      * Button to select source file for processing.
      */
     @FXML
@@ -74,8 +80,11 @@ public class DigestController {
 	@FXML
 	private Button btnSaveAs;
 
+    /**
+     * Text area for calculated digest messages
+     */
     @FXML
-    private ResourceBundle lang;
+    public TextArea digestText;
 
     /**
      * Stage (window) used for this controller.
@@ -167,6 +176,19 @@ public class DigestController {
                 }
         );
 
+        /*
+         * Text area for digest messages
+         */
+
+        //digestText.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+/*
+        pane.heightProperty().addListener(
+                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                    scrollPane.setVvalue(scrollPane.getVmax());
+                }
+        );
+
+ */
 		// TODO: needs to go to the model
 		btnCalculate.setOnAction(event -> {
 
@@ -215,8 +237,10 @@ public class DigestController {
 
         // selecting c14n method is allowed only for well formed XML document
         if (xmlFile != null && xmlFile.isXmlDocument()) {
+
             cbMethod.getItems().setAll(XmlC14nMethod.values());
             cbMethod.setDisable(false);
+
         } else {
             cbMethod.getItems().setAll(XmlC14nMethod.C14N_NONE);
             cbMethod.setDisable(true);

@@ -63,8 +63,8 @@ public class XmlFile extends File {
             db = dbf.newDocumentBuilder();
             xmlDocument = db.parse(this);
 
-        } catch (Exception e) {
-            LOG.debug("XML parser stopped: " + e.getMessage(), e);
+        } catch (Throwable t) {
+            LOG.debug("XML parser stopped: " + t.getMessage(), t);
             xmlDocument = null;
         }
 

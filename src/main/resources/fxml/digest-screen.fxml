@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -23,7 +23,7 @@
         <HBox styleClass="hbox-style">
             <children>
                 <Label styleClass="label-style" text="%lblSourceFileInfo" />
-                <Label fx:id="lblSourceFileInfo"  />
+                <Label fx:id="lblSourceFileInfo" />
             </children>
         </HBox>
 
@@ -31,7 +31,7 @@
             <children>
                 <Label styleClass="label-style" text="%lblTransformation" />
                 <ComboBox fx:id="cbMethod" />
-                <Label fx:id="lblMethodUri"  />
+                <Label fx:id="lblMethodUri" />
             </children>
         </HBox>
 
@@ -44,5 +44,16 @@
 			</children>
 		</HBox>
 
-	</children>
+        <AnchorPane>
+            <TextArea fx:id="digestText" editable="false" prefHeight="300" styleClass="read-only-text-style" text="lorem ipsum dolor"
+                    AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        </AnchorPane>
+<!--
+        <HBox styleClass="hbox-style">
+            <children>
+                <TextArea fx:id="digestText" styleClass="textarea-style" editable="true" text="lorem ipsum dolor sit abet"/>
+            </children>
+        </HBox>
+-->
+    </children>
 </VBox>
