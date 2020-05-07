@@ -38,7 +38,7 @@ public class XmlFileToInfoConverter extends StringConverter<XmlFile> {
         }
 
         // append file size
-        message.append(" (").append(object.readableFileSize());
+        message.append(" (").append(object.humanFileSize());
 
         // include warning for large files
         if (object.length() > CAUTION_TRESHOLD) {

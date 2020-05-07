@@ -24,6 +24,16 @@ public class XmlFile extends File {
     Document xmlDocument = null;
 
     /**
+     * Custom constructor supports initialization directly from File
+     *
+     * @param file the file where the pathname will be extracted from
+     */
+    public XmlFile(File file)
+    {
+        super((file == null)? "" : file.getAbsolutePath());
+    }
+
+    /**
      * All required constructors call super()
      */
     public XmlFile(String pathname) {
@@ -54,7 +64,7 @@ public class XmlFile extends File {
             xmlDocument = db.parse(this);
 
         } catch (Exception e) {
-            LOG.debug("XML parser stopped: " + e.getMessage());
+            LOG.debug("XML parser stopped: " + e.getMessage(), e);
             xmlDocument = null;
         }
 
@@ -73,7 +83,7 @@ public class XmlFile extends File {
                 return true;
             }
         } catch (Exception e) {
-            LOG.debug("File is not readable: " + e.getMessage());
+            LOG.debug("File is not readable: " + e.getMessage(), e);
         }
 
         return false;
@@ -105,7 +115,7 @@ public class XmlFile extends File {
      *
      * @return formatted file size including unit
      */
-    public String readableFileSize() {
+    public String humanFileSize() {
 
         if (length() <= 0) {
             return "0 B";

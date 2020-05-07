@@ -4,7 +4,6 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.Init;
@@ -13,11 +12,11 @@ import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
+import sk.isdd.validator.xml.XmlFile;
+import sk.isdd.validator.xml.XmlFileChooser;
 import sk.isdd.validator.xml.XmlFileToStringConverter;
-import sk.isdd.validator.fx.I18nMsg;
 import sk.isdd.validator.xml.XmlFileToInfoConverter;
 import sk.isdd.validator.model.DigestModel;
-import sk.isdd.validator.xml.XmlFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,16 +39,10 @@ public class DigestController {
 	private static final Logger LOG = LoggerFactory.getLogger(DigestController.class);
 
     /**
-     * Combo box for selecting canonicalization method (enumerated in {@link sk.isdd.validator.enumerations.XmlC14nMethod}).
-     */
-	@FXML
-	public ComboBox<XmlC14nMethod> cbXmlC14nMethod;
-
-    /**
-     * Label holding information about W3C URI specification from selected enumeration.
+     * Button to select source file for processing.
      */
     @FXML
-    public Label lblMethodUri;
+    private Button btnSourceFile;
 
     /**
      * Label with info about state of the source file.
@@ -58,10 +51,16 @@ public class DigestController {
     public Label lblSourceFileInfo;
 
     /**
-     * Button to select source file for processing.
+     * Combo box for selecting canonicalization method (enumerated in {@link sk.isdd.validator.enumerations.XmlC14nMethod}).
+     */
+	@FXML
+	public ComboBox<XmlC14nMethod> cbMethod;
+
+    /**
+     * Label holding information about W3C URI specification from selected enumeration.
      */
     @FXML
-	private Button btnSourceFile;
+    public Label lblMethodUri;
 
     /**
      * Calculation button starts the processing task for message digest.
@@ -89,6 +88,11 @@ public class DigestController {
 	private DigestModel model;
 
     /**
+     * Customized instance of file open dialog.
+     */
+    private XmlFileChooser xmlFileChooser;
+
+    /**
      * Initialization of this controller for message digest processing (auto invoked).
      *
      * <p> It has access to all the @FXML annotated resources, constructor does not.
@@ -96,38 +100,52 @@ public class DigestController {
      */
     @FXML
 	public void initialize() {
-		model = new DigestModel();
 
-        // init loading button for source file
+		model = new DigestModel();
+        xmlFileChooser = new XmlFileChooser();
+
+        /*
+         * Source file button
+         */
+
+        // show custom file chooser when the button is pressed
 		btnSourceFile.setOnAction(event -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle(I18nMsg.getString("titleSelectSourceFile"));
-            File file = fileChooser.showOpenDialog(stage);
-            if (file == null) {
-                model.setSourceFile(null);
-            } else {
-                model.setSourceFile(new XmlFile(file.getAbsolutePath()));
-            }
+            model.setSourceFile(xmlFileChooser.showXmlOpenDialog(stage));
 		});
 
-		// bind text label and XML info
+		// bind the file name and the XML info to their respective labels
 		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToStringConverter());
         lblSourceFileInfo.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToInfoConverter());
 
         BooleanBinding isSourceFileEmpty = model.sourceFileProperty().isNull();
 
-        // init c14n combo box
-        // TODO: limit combo box values depending on type of the source file
-        cbXmlC14nMethod.valueProperty().bindBidirectional(model.xmlC14nMethodProperty());
-        cbXmlC14nMethod.getItems().setAll(XmlC14nMethod.values());
+        /*
+         * Canonicalization combo box
+         */
+
+        // bind c14n combo box to the appropriate data model property
+        cbMethod.valueProperty().bindBidirectional(model.methodProperty());
+
+        // turn off the c14n combo box by default
+        updateMethod(null);
+
+        // listener for change in the source file
+        model.sourceFileProperty().addListener((options, oldSourceFile, newSourceFile) ->{
+            updateMethod(newSourceFile);
+        });
 
         // add listener to c14n combo box value to update adjacent label with its URI value
-        cbXmlC14nMethod.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-                    lblMethodUri.setText(newValue.getUri());
+        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
+                    if (newMethod != null) {
+                        lblMethodUri.setText(newMethod.getUri());
+                    }
                 }
         );
-        cbXmlC14nMethod.setValue(XmlC14nMethod.C14N_NONE);
 
+
+        /*
+         * Calculate button
+         */
 
         // init calculation button
 		btnCalculate.disableProperty().bind(isSourceFileEmpty);
@@ -165,7 +183,29 @@ public class DigestController {
 			}
 		});
 
+		LOG.debug("DigestController is initialized.");
 	}
+
+    /**
+     * Update "c14n method" combo box to reflect type of selected source file.
+     *
+     * If well formed xml file was loaded, then c14n transformations are allowed.
+     *
+     * @param xmlFile the file whose state is reflected upon combo box
+     */
+    private void updateMethod(XmlFile xmlFile) {
+        cbMethod.getItems().removeAll(cbMethod.getItems());
+
+        // selecting c14n method is allowed only for well formed XML document
+        if (xmlFile != null && xmlFile.isXmlDocument()) {
+            cbMethod.getItems().setAll(XmlC14nMethod.values());
+            cbMethod.setDisable(false);
+        } else {
+            cbMethod.getItems().setAll(XmlC14nMethod.C14N_NONE);
+            cbMethod.setDisable(true);
+        };
+        cbMethod.setValue(XmlC14nMethod.C14N_NONE);
+    }
 
     /**
      * Setting stage (window) passed down from teh creator of this controller.

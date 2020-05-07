@@ -22,7 +22,7 @@ public class DigestModel {
     /**
      * XmlC14nMethod enumeration bound to combo box.
      */
-    private ObjectProperty<XmlC14nMethod> xmlC14nMethod = new SimpleObjectProperty<>();
+    private ObjectProperty<XmlC14nMethod> method = new SimpleObjectProperty<>();
 
     /**
      * Getter for source file representing selected file for transformation.
@@ -52,8 +52,8 @@ public class DigestModel {
      * Property object of "xml c14n method" used for binding
      * @return the canonicalization method enumeration wrapped in object property
      */
-    public ObjectProperty<XmlC14nMethod> xmlC14nMethodProperty() {
-        return xmlC14nMethod;
+    public ObjectProperty<XmlC14nMethod> methodProperty() {
+        return method;
     }
 
 }

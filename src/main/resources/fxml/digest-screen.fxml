@@ -30,7 +30,7 @@
         <HBox styleClass="hbox-style">
             <children>
                 <Label styleClass="label-style" text="%lblTransformation" />
-                <ComboBox fx:id="cbXmlC14nMethod" />
+                <ComboBox fx:id="cbMethod" />
                 <Label fx:id="lblMethodUri"  />
             </children>
         </HBox>
