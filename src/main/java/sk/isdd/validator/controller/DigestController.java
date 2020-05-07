@@ -129,26 +129,43 @@ public class DigestController {
         // turn off the c14n combo box by default
         updateMethod(null);
 
-        // listener for change in the source file
+        // listen if the source file is changed and adjust combo box selection list accordingly
         model.sourceFileProperty().addListener((options, oldSourceFile, newSourceFile) ->{
             updateMethod(newSourceFile);
         });
 
-        // add listener to c14n combo box value to update adjacent label with its URI value
+        // listens to c14n combo box value and updates adjacent label with its URI
         cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
+
                     if (newMethod != null) {
                         lblMethodUri.setText(newMethod.getUri());
                     }
                 }
         );
 
-
         /*
          * Calculate button
          */
 
-        // init calculation button
+        // calculation of message digests are allowed on any selected source file
 		btnCalculate.disableProperty().bind(isSourceFileEmpty);
+
+        /*
+         * SaveAs button
+         */
+
+        btnSaveAs.setDisable(true);
+
+        // listener to enable button if any valid transformation method is selected
+        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
+
+                    if (newMethod != null && newMethod != XmlC14nMethod.C14N_NONE) {
+                        btnSaveAs.setDisable(false);
+                    } else {
+                        btnSaveAs.setDisable(true);
+                    }
+                }
+        );
 
 		// TODO: needs to go to the model
 		btnCalculate.setOnAction(event -> {
@@ -187,7 +204,7 @@ public class DigestController {
 	}
 
     /**
-     * Update "c14n method" combo box to reflect type of selected source file.
+     * Update "c14n method" combo box to reflect type of the selected source file.
      *
      * If well formed xml file was loaded, then c14n transformations are allowed.
      *
