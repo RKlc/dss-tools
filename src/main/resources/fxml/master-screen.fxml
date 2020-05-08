@@ -2,12 +2,7 @@
 
 <?import javafx.scene.control.*?>
 
-<TabPane xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="sk.isdd.validator.controller.MasterController"
-         fx:id="appWindow"
-         maxHeight="-Infinity" maxWidth="-Infinity"
-         tabClosingPolicy="UNAVAILABLE">
+<TabPane fx:id="appWindow" stylesheets="@../styles/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.isdd.validator.controller.MasterController">
 
     <tabs>
         <Tab fx:id="tabDigest" text="%tabDigestTitle">

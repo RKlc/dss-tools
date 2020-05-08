@@ -4,9 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="sk.isdd.validator.controller.DigestController">
+<VBox xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.isdd.validator.controller.DigestController">
 
 	<padding>
 		<Insets bottom="20" left="20" right="20" top="20" />
@@ -44,15 +42,19 @@
 			</children>
 		</HBox>
 
-        <HBox styleClass="hbox-style">
-            <children>
-                <Label styleClass="label-style" text="%lblDigestMessages" />
-            </children>
-        </HBox>
-
-        <AnchorPane>
-            <TextArea fx:id="digestText" editable="false" prefHeight="320" styleClass="read-only-text-style"
-                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <AnchorPane prefHeight="430" >
+            <TableView fx:id="tblDigest" editable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+                <placeholder>
+                    <Label text="" />
+                </placeholder>
+                <columns>
+                    <TableColumn fx:id="colAlgorithm" maxWidth="800" text="Algorithm" />
+                    <TableColumn fx:id="colDigest" text="Message digest" />
+                </columns>
+            </TableView>
         </AnchorPane>
 
     </children>
