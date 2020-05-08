@@ -6,6 +6,10 @@ import sk.isdd.validator.fx.I18nMsg;
 
 import java.io.File;
 
+
+/**
+ * FileChooser extension
+ */
 public class XmlFileChooser {
 
     /**

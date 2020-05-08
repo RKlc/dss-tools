@@ -22,9 +22,12 @@ public enum DigestAlgorithm implements UriBasedEnum, OidBasedEnum {
     SHA3_256( "SHA3-256",  "SHA3-256",  "2.16.840.1.101.3.4.2.8",  "http://www.w3.org/2007/05/xmldsig-more#sha3-256"),
     SHA3_384( "SHA3-384",  "SHA3-384",  "2.16.840.1.101.3.4.2.9",  "http://www.w3.org/2007/05/xmldsig-more#sha3-384"),
     SHA3_512( "SHA3-512",  "SHA3-512",  "2.16.840.1.101.3.4.2.10", "http://www.w3.org/2007/05/xmldsig-more#sha3-512"),
-    RIPEMD160("RIPEMD160", "RIPEMD160", "1.3.36.3.2.1",            "http://www.w3.org/2001/04/xmlenc#ripemd160"),
     MD2(      "MD2",       "MD2",       "1.2.840.113549.2.2",      "http://www.w3.org/2001/04/xmldsig-more#md2"),
+    MD4(      "MD4",       "MD4",       "1.2.840.113549.2.4",      "http://www.w3.org/2001/04/xmldsig-more#md4"),
     MD5(      "MD5",       "MD5",       "1.2.840.113549.2.5",      "http://www.w3.org/2001/04/xmldsig-more#md5"),
+    RIPEMD128("RIPEMD128", "RIPEMD128", "1.3.36.3.2.2",            "http://www.w3.org/2001/04/xmlenc#ripemd128"),
+    RIPEMD160("RIPEMD160", "RIPEMD160", "1.3.36.3.2.1",            "http://www.w3.org/2001/04/xmlenc#ripemd160"),
+    RIPEMD256("RIPEMD256", "RIPEMD256", "1.3.36.3.2.3",            "http://www.w3.org/2001/04/xmlenc#ripemd256"),
     WHIRLPOOL("WHIRLPOOL", "WHIRLPOOL", "1.0.10118.3.0.55",        "http://www.w3.org/2007/05/xmldsig-more#whirlpool");
     // @formatter:on
 

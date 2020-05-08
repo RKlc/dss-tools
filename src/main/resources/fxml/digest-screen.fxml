@@ -44,16 +44,16 @@
 			</children>
 		</HBox>
 
-        <AnchorPane>
-            <TextArea fx:id="digestText" editable="false" prefHeight="300" styleClass="read-only-text-style" text="lorem ipsum dolor"
-                    AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-        </AnchorPane>
-<!--
         <HBox styleClass="hbox-style">
             <children>
-                <TextArea fx:id="digestText" styleClass="textarea-style" editable="true" text="lorem ipsum dolor sit abet"/>
+                <Label styleClass="label-style" text="%lblDigestMessages" />
             </children>
         </HBox>
--->
+
+        <AnchorPane>
+            <TextArea fx:id="digestText" editable="false" prefHeight="320" styleClass="read-only-text-style"
+                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        </AnchorPane>
+
     </children>
 </VBox>

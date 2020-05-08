@@ -1,5 +1,6 @@
 package sk.isdd.validator;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sk.isdd.validator.controller.MasterController;
 
+import java.security.Security;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -40,11 +42,13 @@ public class ValidatorApplication extends Application {
 
         // Initialize layout
         try {
+            Security.addProvider(new BouncyCastleProvider());
+
 			FXMLLoader loader = new FXMLLoader();
 
             // I18n support
-            ResourceBundle lang = ResourceBundle.getBundle("lang.messages", Locale.getDefault());
-            loader.setResources(lang);
+            ResourceBundle resources = ResourceBundle.getBundle("lang.messages", Locale.getDefault());
+            loader.setResources(resources);
 
             // Load root layout
 			loader.setLocation(getClass().getResource("/fxml/master-screen.fxml"));
@@ -56,7 +60,7 @@ public class ValidatorApplication extends Application {
 			stage.setScene(scene);
 
             // Customize the stage
-            stage.setTitle(lang.getString("appTitle"));
+            stage.setTitle(resources.getString("appTitle"));
             stage.setMinWidth(800);
             stage.setMinHeight(600);
             stage.setResizable(true);
