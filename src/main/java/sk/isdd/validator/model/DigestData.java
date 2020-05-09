@@ -1,31 +1,63 @@
 package sk.isdd.validator.model;
 
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import sk.isdd.validator.enumerations.DigestAlgorithm;
+
+import java.util.Base64;
 
 /**
- * Simple data class represents message digest results
+ * Simple data class represents message digest results.
  */
 public class DigestData {
 
-    private final SimpleStringProperty algorithm;
-    private final SimpleStringProperty digest;
+    private final ObjectProperty<DigestAlgorithm> algorithm;
+    private final ObjectProperty<byte[]> digest;
 
-    public DigestData(String algorithm, String digest) {
-        this.algorithm = new SimpleStringProperty(algorithm);
-        this.digest = new SimpleStringProperty(digest);
+    public DigestData(DigestAlgorithm algorithm, byte[] digest) {
+        this.algorithm = new SimpleObjectProperty<>(algorithm);
+        this.digest = new SimpleObjectProperty<>(digest);
     }
 
-    public String getAlgorithm() {
+    /**
+     * Return digest algorithm by its name (e.g. "SHA-256").
+     */
+    public String getAlgorithmName() {
+        return algorithm.get().getJavaName();
+    }
+
+    /**
+     * Return Base 64 encoded message digest for given algorithm.
+     */
+    public String getDigestBase64() {
+        return Base64.getEncoder().encodeToString(digest.get());
+    }
+
+    /**
+     * Return algorithm as whole enumeration object.
+     */
+    public DigestAlgorithm getAlgorithm() {
         return algorithm.get();
     }
-    public void setAlgorithm(String algorithm) {
+
+    /**
+     * Set algorithm by its enumeration object.
+     */
+    public void setAlgorithm(DigestAlgorithm algorithm) {
         this.algorithm.set(algorithm);
     }
 
-    public String getDigest() {
+    /**
+     * Get raw digest message.
+     */
+    public byte[] getDigest() {
         return digest.get();
     }
-    public void setDigest(String digest) {
+
+    /**
+     * Set raw digest message.
+     */
+    public void setDigest(byte[] digest) {
         this.digest.set(digest);
     }
 

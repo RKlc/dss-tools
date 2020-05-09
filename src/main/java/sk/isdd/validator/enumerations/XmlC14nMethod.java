@@ -297,17 +297,4 @@ public enum XmlC14nMethod implements UriBasedEnum {
         return uri;
     }
 
-    // TODO: Implement Canonicalizer class
-    /*
-     * Get a new instance of Canonicalizer for the current c14n method
-     *
-     * @return an instance of MessageDigest
-     * @throws NoSuchAlgorithmException
-     *                                  if the c14n method is not supported
-     */
-    /*
-    public Canonicalizer getCanonicalizer() throws NoSuchAlgorithmException {
-        return Canonicalizer.getInstance(name);
-    }
-    */
 }

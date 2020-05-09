@@ -133,7 +133,7 @@ public class DigestController {
             model.setSourceFile(xmlFileChooser.showXmlOpenDialog(stage));
 		});
 
-		// bind the file name and the XML info to their respective labels
+		// bind the file name and information about the file to their respective labels
 		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToStringConverter());
         lblSourceFileInfo.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToInfoConverter());
 
@@ -154,7 +154,7 @@ public class DigestController {
             updateMethod(newSourceFile);
         });
 
-        // listens to c14n combo box value and updates adjacent label with its URI
+        // listen to c14n combo box value and update adjacent label with its URI
         cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
 
             if (newMethod != null) {
@@ -169,13 +169,18 @@ public class DigestController {
         // calculation of message digests are allowed on any selected source file
 		btnCalculate.disableProperty().bind(isSourceFileEmpty);
 
+		// just calculate data, they are observed and will auto-update
+        btnCalculate.setOnAction(event -> {
+            model.calculateDigestData();
+        });
+
         /*
          * SaveAs button
          */
 
         btnSaveAs.setDisable(true);
 
-        // listener to enable button if any valid transformation method is selected
+        // listener to enable SaveAs button if any valid transformation method is selected
         cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
 
             if (newMethod != null && newMethod != XmlC14nMethod.C14N_NONE) {
@@ -185,78 +190,49 @@ public class DigestController {
             }
         });
 
+        // Save transformation as new file
+        btnSaveAs.setOnAction(event -> {
+            // TODO: open save as dialog and save transformed content
+/*
+            if (outArray != null) {
+                try {
+                    FileUtils.writeByteArrayToFile(new File("D:\\out.xml"), outArray);
+                } catch (IOException e) {
+                    LOG.error("Unable to save file", e);
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to save file: " + e.getMessage(), ButtonType.CLOSE);
+                    alert.showAndWait();
+                }
+            }
+            Alert alert = new Alert(AlertType.CONFIRMATION, "Loaded");
+            alert.showAndWait();
+
+*/
+        });
+
         /*
          * Table for digest messages
          */
 
         // bind columns to data class
         colAlgorithm.setCellValueFactory(
-                new PropertyValueFactory<DigestData,String>("algorithm")
+                new PropertyValueFactory<>("algorithmName")
         );
         colDigest.setCellValueFactory(
-                new PropertyValueFactory<DigestData,String>("digest")
+                new PropertyValueFactory<>("digestBase64")
         );
 
-        // digest messages have editable cells
+        // editable cells for digest messages (double click to copy text out of them)
         colDigest.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        // set all table cells to selectable
+        // bind observation of data source
+        tblDigest.setItems(model.getDigestList());
+
         /*
+        // TODO: copy-paste feature: selections need support for copy-paste handler first
+        // set all table cells to be selectable
         tblDigest.getSelectionModel().setCellSelectionEnabled(true);
         tblDigest.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         */
-
-        // TODO: needs to go to the model
-		btnCalculate.setOnAction(event -> {
-
-			File sourceFile = model.getSourceFile();
-
-			//init array with file length
-			byte[] sourceArray;
-
-			try {
-                sourceArray = JavaUtils.getBytesFromFile(sourceFile.getAbsolutePath());
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
-			}
-
-			byte[] outArray;
-
-			if (cbMethod != null && cbMethod.getValue() != XmlC14nMethod.C14N_NONE) {
-                try {
-                    org.apache.xml.security.Init.init();
-                    Canonicalizer c14n = Canonicalizer.getInstance(cbMethod.getValue().getUri());
-                    outArray = c14n.canonicalize(sourceArray);
-                } catch (Exception e) {
-                    LOG.error("Cannot canonicalize the binaries", e);
-                    Alert alert = new Alert(AlertType.ERROR, "Unable to transform file: " + e.getMessage(), ButtonType.CLOSE);
-                    alert.showAndWait();
-                    outArray = null;
-                }
-            } else {
-			    outArray =null;
-            }
-
-			if (outArray != null) {
-                updateDigest(outArray);
-
-            } else if (sourceArray != null) {
-                updateDigest(sourceArray);
-            } else {
-                LOG.info("Nothing to calculate, source file is empty.");
-            }
-
-            if (outArray != null) {
-                try {
-                    FileUtils.writeByteArrayToFile(new File("D:\\out.xml"), outArray);
-                } catch (IOException e) {
-                    LOG.error("Unable to save file", e);
-                    Alert alert = new Alert(AlertType.ERROR, "Unable to save file: " + e.getMessage(), ButtonType.CLOSE);
-                    alert.showAndWait();
-                }
-            }
-		});
 
 		LOG.debug("DigestController is initialized.");
 	}
@@ -285,53 +261,7 @@ public class DigestController {
     }
 
     /**
-     * Update list of message digests in text area.
-     */
-    private void updateDigest(byte[] message) {
-
-        MessageDigest md;
-        StringBuffer content = new StringBuffer("");
-        byte[] digest;
-        StringBuffer hexString;
-
-        ArrayList<DigestData> list = new ArrayList<>();
-
-        for (DigestAlgorithm algorithm : DigestAlgorithm.values()) {
-            try {
-                md = algorithm.getMessageDigest();
-
-                //Passing data to the created MessageDigest Object
-                md.update(message);
-
-                //Compute the message digest
-                digest = md.digest();
-
-                //Converting the byte array in to HexString format
-                hexString = new StringBuffer();
-
-                for (int i = 0; i<digest.length; i++) {
-                    hexString.append(Integer.toHexString(0xFF & digest[i]));
-                }
-
-                list.add(new DigestData(algorithm.getJavaName(), hexString.toString()));
-
-            } catch (NoSuchAlgorithmException e) {
-
-                list.add(new DigestData(algorithm.getJavaName(), resources.getString("AlgorithmNotSupported")));
-                LOG.debug(algorithm.getJavaName() + " algorithm not provided.");
-            }
-        }
-
-        if (list != null) {
-            final ObservableList<DigestData> data = FXCollections.observableArrayList(list);
-            tblDigest.setItems(data);
-        } else {
-            LOG.debug("Digest Message did not contain any data.");
-        }
-    }
-
-    /**
-     * Setting stage (window) passed down from teh creator of this controller.
+     * Setting stage (window) passed down from the creator of this controller.
      *
      * @param stage the window dedicated to this controller
      */
