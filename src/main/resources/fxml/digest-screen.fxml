@@ -4,58 +4,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.isdd.validator.controller.DigestController">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="sk.isdd.validator.controller.DigestController">
 
-	<padding>
-		<Insets bottom="20" left="20" right="20" top="20" />
-	</padding>
-
-	<children>
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
 		<HBox styleClass="hbox-style">
-			<children>
-				<Label styleClass="label-style" text="%lblSourceFile" />
-				<Button fx:id="btnSourceFile" mnemonicParsing="false" text="%emptySelectFile" />
-			</children>
+            <Label styleClass="label-style" text="%lblSourceFile" />
+            <Button fx:id="btnSourceFile" mnemonicParsing="false" text="%emptySelectFile" />
 		</HBox>
 
         <HBox styleClass="hbox-style">
-            <children>
-                <Label styleClass="label-style" text="%lblSourceFileInfo" />
-                <Label fx:id="lblSourceFileInfo" />
-            </children>
+            <Label styleClass="label-style" text="%lblSourceFileInfo" />
+            <Label fx:id="lblSourceFileInfo" />
         </HBox>
 
         <HBox styleClass="hbox-style">
-            <children>
-                <Label styleClass="label-style" text="%lblTransformation" />
-                <ComboBox fx:id="cbMethod" />
-                <Label fx:id="lblMethodUri" />
-            </children>
+            <Label styleClass="label-style" text="%lblTransformation" />
+            <ComboBox fx:id="cbMethod" />
+            <Label fx:id="lblMethodUri" />
         </HBox>
 
         <Separator styleClass="separator-style" />
 
 		<HBox styleClass="hbox-style">
-			<children>
-				<Button fx:id="btnCalculate" mnemonicParsing="false" text="%btnCalculate" />
-                <Button fx:id="btnSaveAs" mnemonicParsing="false" text="%btnSaveAs" />
-			</children>
+            <Button fx:id="btnCalculate" mnemonicParsing="false" text="%btnCalculate" />
+            <Button fx:id="btnSaveAs" mnemonicParsing="false" text="%btnSaveAs" />
 		</HBox>
+    </VBox>
 
-        <AnchorPane prefHeight="430" >
-            <TableView fx:id="tblDigest" editable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                </columnResizePolicy>
-                <placeholder>
-                    <Label text="" />
-                </placeholder>
-                <columns>
-                    <TableColumn fx:id="colAlgorithm" maxWidth="800" text="Algorithm" />
-                    <TableColumn fx:id="colDigest" text="Message digest" />
-                </columns>
-            </TableView>
-        </AnchorPane>
+    <TableView fx:id="tblDigest" editable="true" prefHeight="100"
+               AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="180.0">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        <placeholder>
+            <Label text="" />
+        </placeholder>
+        <columns>
+            <TableColumn fx:id="colAlgorithm" minWidth="80" maxWidth="150" text="Algorithm" />
+            <TableColumn fx:id="colDigest" text="Message digest" />
+        </columns>
+    </TableView>
 
-    </children>
-</VBox>
+</AnchorPane>

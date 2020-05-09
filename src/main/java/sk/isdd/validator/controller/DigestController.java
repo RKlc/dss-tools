@@ -196,11 +196,15 @@ public class DigestController {
         colDigest.setCellValueFactory(
                 new PropertyValueFactory<DigestData,String>("digest")
         );
+
+        // digest messages have editable cells
         colDigest.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        // set table cells selectable
+        // set all table cells to selectable
+        /*
         tblDigest.getSelectionModel().setCellSelectionEnabled(true);
         tblDigest.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        */
 
         // TODO: needs to go to the model
 		btnCalculate.setOnAction(event -> {
@@ -310,23 +314,19 @@ public class DigestController {
                 }
 
                 list.add(new DigestData(algorithm.getJavaName(), hexString.toString()));
-/*                content.append(algorithm.getJavaName())
-                        .append(": ")
-                        .append(hexString.toString())
-                        .append("\n");
-*/
+
             } catch (NoSuchAlgorithmException e) {
 
-                content.append(algorithm.getJavaName())
-                        .append(": ")
-                        .append(resources.getString("AlgorithmNotSupported"))
-                        .append("\n");
+                list.add(new DigestData(algorithm.getJavaName(), resources.getString("AlgorithmNotSupported")));
+                LOG.debug(algorithm.getJavaName() + " algorithm not provided.");
             }
         }
 
         if (list != null) {
             final ObservableList<DigestData> data = FXCollections.observableArrayList(list);
             tblDigest.setItems(data);
+        } else {
+            LOG.debug("Digest Message did not contain any data.");
         }
     }
 

@@ -2,13 +2,13 @@
 
 <?import javafx.scene.control.*?>
 
-<TabPane fx:id="appWindow" stylesheets="@../styles/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.isdd.validator.controller.MasterController">
+<TabPane fx:id="appWindow" stylesheets="@../styles/style.css" tabClosingPolicy="UNAVAILABLE"
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         fx:controller="sk.isdd.validator.controller.MasterController">
 
-    <tabs>
-        <Tab fx:id="tabDigest" text="%tabDigestTitle">
-            <!-- Important: id "digest" is autoinjected to field MasterController.digestController -->
-            <!-- It is documented and it works but it is seen as unresolved by the InteliJ IDEA 2020.1 -->
-            <fx:include fx:id="digest" source="digest-screen.fxml" />
-        </Tab>
-    </tabs>
+    <Tab fx:id="tabDigest" text="%tabDigestTitle">
+        <!-- Important: id "digest" is autoinjected to field MasterController.digestController -->
+        <!-- It is documented and it works but it is seen as unresolved by the InteliJ IDEA 2020.1 -->
+        <fx:include fx:id="digest" source="digest-screen.fxml" />
+    </Tab>
 </TabPane>

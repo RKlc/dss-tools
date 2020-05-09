@@ -62,7 +62,7 @@ public class ValidatorApplication extends Application {
             // Customize the stage
             stage.setTitle(resources.getString("appTitle"));
             stage.setMinWidth(800);
-            stage.setMinHeight(600);
+            stage.setMinHeight(400);
             stage.setResizable(true);
             stage.getIcons().add(new Image("/validator-logo.png"));
             stage.show();

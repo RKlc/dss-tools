@@ -14,6 +14,11 @@
     -fx-padding: 10 0;
 }
 
+.table-view .column-header,
+.table-view .column-header .filler {
+    -fx-font-weight: normal;
+}
+
 .read-only-text-style {
     -fx-focus-color: transparent;
     -fx-text-box-border: transparent;
