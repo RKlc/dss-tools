@@ -2,6 +2,7 @@ package sk.isdd.validator.xml;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.utils.JavaUtils;
@@ -51,7 +52,10 @@ public class XmlFile extends File {
      */
     boolean isParsingFailed = false;
 
-
+    /**
+     * Cached bytes of transformed source file (transformation depends on the method).
+     */
+    private byte[] transformedBytes = null;
 
     /**
      * Custom constructor supports initialization directly from File
@@ -114,6 +118,35 @@ public class XmlFile extends File {
     }
 
     /**
+     * Save transformed output to chosen file.
+     *
+     * @param file the file where to save output
+     * @return true if file was saved, false otherwise
+     */
+    public boolean saveTransformedFile(File file) {
+
+        if (file == null) {
+            LOG.error("Unable to save transformation to unknown file.");
+            return false;
+        }
+
+        if (transformedBytes == null) {
+            LOG.error("Transformed data not found.");
+            return false;
+        }
+
+        try {
+            FileUtils.writeByteArrayToFile(file, transformedBytes);
+
+        } catch (IOException e) {
+            LOG.error("Unable to save transformation to file \"" + file.getAbsolutePath() + "\": " + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Parse loaded file into DOM document once.
      *
      * On subsequent calls just return already parsed xml document. All exceptions are suppressed.
@@ -171,13 +204,15 @@ public class XmlFile extends File {
 
         // return without transformation
         if (method == XmlC14nMethod.C14N_NONE) {
+            transformedBytes = rawBytes;
             return rawBytes;
         }
 
         try {
             org.apache.xml.security.Init.init();
             Canonicalizer c14n = Canonicalizer.getInstance(method.getUri());
-            return c14n.canonicalize(rawBytes);
+            transformedBytes = c14n.canonicalize(rawBytes);
+            return transformedBytes;
 
         } catch (Exception e) {
             LOG.error("Cannot canonicalize the source file; Transformation \"" + method.getText() + "\": " + method.getUri(), e);
@@ -238,6 +273,10 @@ public class XmlFile extends File {
 
     public byte[] getRawBytes() {
         return rawBytes;
+    }
+
+    public byte[] getTransformedBytes() {
+        return transformedBytes;
     }
 
 }

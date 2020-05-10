@@ -10,12 +10,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sk.isdd.validator.enumerations.DigestAlgorithm;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
+import sk.isdd.validator.fx.I18nMsg;
 import sk.isdd.validator.model.DigestData;
 import sk.isdd.validator.xml.XmlFile;
 import sk.isdd.validator.xml.XmlFileChooser;
@@ -169,7 +171,7 @@ public class DigestController {
         // calculation of message digests are allowed on any selected source file
 		btnCalculate.disableProperty().bind(isSourceFileEmpty);
 
-		// just calculate data, they are observed and will auto-update
+		// calculate data, they are observed and will be auto-update
         btnCalculate.setOnAction(event -> {
             model.calculateDigestData();
         });
@@ -181,6 +183,7 @@ public class DigestController {
         btnSaveAs.setDisable(true);
 
         // listener to enable SaveAs button if any valid transformation method is selected
+        // TODO: Button should be enabled only if transformation was already performed
         cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
 
             if (newMethod != null && newMethod != XmlC14nMethod.C14N_NONE) {
@@ -192,21 +195,22 @@ public class DigestController {
 
         // Save transformation as new file
         btnSaveAs.setOnAction(event -> {
-            // TODO: open save as dialog and save transformed content
-/*
-            if (outArray != null) {
-                try {
-                    FileUtils.writeByteArrayToFile(new File("D:\\out.xml"), outArray);
-                } catch (IOException e) {
-                    LOG.error("Unable to save file", e);
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to save file: " + e.getMessage(), ButtonType.CLOSE);
-                    alert.showAndWait();
-                }
-            }
-            Alert alert = new Alert(AlertType.CONFIRMATION, "Loaded");
-            alert.showAndWait();
 
-*/
+            // show "Save As" dialog
+            File file = xmlFileChooser.showXmlSaveDialog(stage, model.getSourceFile(), model.getMethod().getText());
+
+            // if selection was cancelled
+            if (file == null) {
+                return;
+            }
+
+            // TODO: Ask user if he wants to overwrite existing file
+
+            // save file
+            if (!model.getSourceFile().saveTransformedFile(file)) {
+                Alert alert = new Alert(AlertType.ERROR, I18nMsg.getString("alertUnableToSave"), ButtonType.CLOSE);
+                alert.showAndWait();
+            }
         });
 
         /*

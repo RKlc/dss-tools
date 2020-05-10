@@ -34,8 +34,6 @@ public class DigestModel {
     /**
      * List of calculated message digests.
      */
-    //private ArrayList<DigestData> DigestList = new ArrayList<>();
-
     private ObservableList<DigestData> DigestList = FXCollections.observableArrayList();
 
 
@@ -110,9 +108,10 @@ public class DigestModel {
         return method;
     }
 
-    /**
-     * Access to output bytes from transformation method.
-     */
+    public XmlC14nMethod getMethod() {
+        return method.get();
+    }
+
     public byte[] getTransformedBytes() {
         return transformedBytes;
     }
