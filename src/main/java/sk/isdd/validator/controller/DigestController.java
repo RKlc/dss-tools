@@ -79,12 +79,6 @@ public class DigestController {
     public Label lblMethodUri;
 
     /**
-     * Calculation button starts the processing task for message digest.
-     */
-	@FXML
-	private Button btnCalculate;
-
-    /**
      * Button for saving canonicalized XML file to drive.
      */
 	@FXML
@@ -130,16 +124,24 @@ public class DigestController {
          * Source file button
          */
 
-        // show custom file chooser when the button is pressed
+        // show custom file chooser when the button is pressed and process selected file
 		btnSourceFile.setOnAction(event -> {
-            model.setSourceFile(xmlFileChooser.showXmlOpenDialog(stage));
-		});
+
+		    XmlFile xmlFile = xmlFileChooser.showXmlOpenDialog(stage);
+            model.setSourceFile(xmlFile);
+
+		    if (xmlFile == null) {
+		        // file selection was canceled
+                model.clearDigestData();
+            } else {
+		        // recalculate new data
+                model.calculateDigestData();
+            }
+        });
 
 		// bind the file name and information about the file to their respective labels
 		btnSourceFile.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToStringConverter());
         lblSourceFileInfo.textProperty().bindBidirectional(model.sourceFileProperty(), new XmlFileToInfoConverter());
-
-        BooleanBinding isSourceFileEmpty = model.sourceFileProperty().isNull();
 
         /*
          * Canonicalization combo box
@@ -147,6 +149,15 @@ public class DigestController {
 
         // bind c14n combo box to the appropriate data model property
         cbMethod.valueProperty().bindBidirectional(model.methodProperty());
+
+        // listen to c14n combo box value and update adjacent label with its URI
+        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
+
+            if (newMethod != null) {
+                lblMethodUri.setText(newMethod.getUri());
+                model.calculateDigestData();
+            }
+        });
 
         // turn off the c14n combo box by default
         updateMethod(null);
@@ -156,26 +167,6 @@ public class DigestController {
             updateMethod(newSourceFile);
         });
 
-        // listen to c14n combo box value and update adjacent label with its URI
-        cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
-
-            if (newMethod != null) {
-                lblMethodUri.setText(newMethod.getUri());
-            }
-        });
-
-        /*
-         * Calculate button
-         */
-
-        // calculation of message digests are allowed on any selected source file
-		btnCalculate.disableProperty().bind(isSourceFileEmpty);
-
-		// calculate data, they are observed and will be auto-update
-        btnCalculate.setOnAction(event -> {
-            model.calculateDigestData();
-        });
-
         /*
          * SaveAs button
          */
@@ -183,14 +174,9 @@ public class DigestController {
         btnSaveAs.setDisable(true);
 
         // listener to enable SaveAs button if any valid transformation method is selected
-        // TODO: Button should be enabled only if transformation was already performed
         cbMethod.getSelectionModel().selectedItemProperty().addListener((options, oldMethod, newMethod) -> {
 
-            if (newMethod != null && newMethod != XmlC14nMethod.C14N_NONE) {
-                btnSaveAs.setDisable(false);
-            } else {
-                btnSaveAs.setDisable(true);
-            }
+            btnSaveAs.setDisable(newMethod == null || newMethod == XmlC14nMethod.C14N_NONE);
         });
 
         // Save transformation as new file
@@ -203,8 +189,6 @@ public class DigestController {
             if (file == null) {
                 return;
             }
-
-            // TODO: Ask user if he wants to overwrite existing file
 
             // save file
             if (!model.getSourceFile().saveTransformedFile(file)) {

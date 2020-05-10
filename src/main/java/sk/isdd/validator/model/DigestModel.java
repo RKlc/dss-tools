@@ -54,6 +54,12 @@ public class DigestModel {
      */
     public void calculateDigestData() {
 
+        // calculate only on defined sources
+        if (method.get() == null || sourceFile.get() == null) {
+            LOG.debug("Required properties not initialized yet.");
+            return;
+        }
+
         transformedBytes = sourceFile.get().canonicalize(method.get());
 
         if (transformedBytes == null) {
@@ -74,6 +80,15 @@ public class DigestModel {
             }
         }
         LOG.info("Message digest list calculated successfully; Transformation \"" + method.get().getText() + "\": " + method.get().getUri());
+    }
+
+    /**
+     * Clear array list of message digests.
+     */
+    public void clearDigestData() {
+
+        DigestList.clear();
+        LOG.debug("Digest list cleared.");
     }
 
     /**

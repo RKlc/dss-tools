@@ -203,7 +203,7 @@ public class XmlFile extends File {
         }
 
         // return without transformation
-        if (method == XmlC14nMethod.C14N_NONE) {
+        if (method == null || method == XmlC14nMethod.C14N_NONE) {
             transformedBytes = rawBytes;
             return rawBytes;
         }

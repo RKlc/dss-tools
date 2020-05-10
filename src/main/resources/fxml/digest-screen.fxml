@@ -27,7 +27,7 @@
         <Separator styleClass="separator-style" />
 
 		<HBox styleClass="hbox-style">
-            <Button fx:id="btnCalculate" mnemonicParsing="false" text="%btnCalculate" />
+            <Label styleClass="label-style" />
             <Button fx:id="btnSaveAs" mnemonicParsing="false" text="%btnSaveAs" />
 		</HBox>
     </VBox>
