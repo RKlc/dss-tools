@@ -1,35 +1,23 @@
 package sk.isdd.validator.controller;
 
-import javafx.beans.binding.BooleanBinding;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.xml.security.c14n.Canonicalizer;
-import org.apache.xml.security.utils.JavaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sk.isdd.validator.enumerations.DigestAlgorithm;
 import sk.isdd.validator.enumerations.XmlC14nMethod;
 import sk.isdd.validator.fx.I18nMsg;
 import sk.isdd.validator.model.DigestData;
+import sk.isdd.validator.model.DigestModel;
 import sk.isdd.validator.xml.XmlFile;
 import sk.isdd.validator.xml.XmlFileChooser;
-import sk.isdd.validator.xml.XmlFileToStringConverter;
 import sk.isdd.validator.xml.XmlFileToInfoConverter;
-import sk.isdd.validator.model.DigestModel;
+import sk.isdd.validator.xml.XmlFileToStringConverter;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**

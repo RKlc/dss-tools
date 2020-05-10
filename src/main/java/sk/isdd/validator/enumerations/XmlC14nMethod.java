@@ -2,9 +2,7 @@ package sk.isdd.validator.enumerations;
 
 import sk.isdd.validator.fx.I18nEnum;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**

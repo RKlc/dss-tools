@@ -2,8 +2,8 @@ package sk.isdd.validator;
 
 /**
  * Basic application exception handling.
- * <p>
- * Just calls super() with various parameters.
+ *
+ * <p> Just calls super() with various parameters.
  */
 public class ApplicationException extends RuntimeException {
 

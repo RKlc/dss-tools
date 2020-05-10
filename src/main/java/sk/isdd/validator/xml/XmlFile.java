@@ -26,7 +26,8 @@ import java.text.DecimalFormat;
  *
  * <p>Internal states of file reading and xml parsing is remembered.
  * These states are not reversible. To reread and reparse file, new object needs to be created.
- * e.g. by reading
+ *
+ * TODO: I/O streaming feature: To support large files, contents of the whole file should not be retained within arrays.
  */
 public class XmlFile extends File {
 

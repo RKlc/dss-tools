@@ -12,10 +12,11 @@ import sk.isdd.validator.xml.XmlFile;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 /**
  * Data representation and transformation support for calculating message digests.
+ *
+ * <p> JavaFX observable objects are used whenever deemed fit.
  */
 public class DigestModel {
 

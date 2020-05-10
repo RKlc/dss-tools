@@ -5,8 +5,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
-import java.util.ResourceBundle;
-
 /**
  * Master controller for the whole application.
  * <p>

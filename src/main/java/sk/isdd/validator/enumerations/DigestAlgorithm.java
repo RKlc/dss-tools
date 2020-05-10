@@ -116,7 +116,7 @@ public enum DigestAlgorithm implements UriBasedEnum, OidBasedEnum {
     }
 
     /**
-     * Returns the digest algorithm associated to the given name.
+     * Returns the digest algorithm associated to the given name or default value
      *
      * @param name         the algorithm name
      * @param defaultValue the default value for the {@code DigestAlgorithm}

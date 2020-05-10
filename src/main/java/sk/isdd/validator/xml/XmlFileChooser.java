@@ -9,7 +9,11 @@ import java.io.File;
 
 
 /**
- * FileChooser extension
+ * FileChooser helper. Contains pre-configured ready to use dialogs for opening and saving file.
+ *
+ * <p> Original FileChooser cannot be extended.
+ *
+ * TODO: Extension filters should be localized or configurable.
  */
 public class XmlFileChooser {
 
@@ -35,14 +39,14 @@ public class XmlFileChooser {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(I18nMsg.getString("titleSelectSourceFile"));
 
-        // add XML extension filters
+        // custom XML extension filters
         fileChooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter(
                         "XML files (*.xml, *.xsl, *.xsd, *.xslt, *.wsdl, *.xlf, *.xliff)",
                         "*.xml", "*.xsl", "*.xsd", "*.xslt", "*.wsdl", "*.xlf", "*.xliff"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        // reset dir to last used path
+        // initialize dir to last used path
         if (lastOpenedDir != null) {
             fileChooser.setInitialDirectory(lastOpenedDir);
         }
@@ -79,7 +83,7 @@ public class XmlFileChooser {
                         "*.xml", "*.xsl", "*.xsd", "*.xslt", "*.wsdl", "*.xlf", "*.xliff"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        // reset dir to last used path
+        // initialize dir to last used path
         if (lastSavedDir != null) {
             fileChooser.setInitialDirectory(lastSavedDir);
 

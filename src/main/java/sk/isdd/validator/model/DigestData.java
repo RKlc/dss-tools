@@ -14,7 +14,13 @@ public class DigestData {
     private final ObjectProperty<DigestAlgorithm> algorithm;
     private final ObjectProperty<byte[]> digest;
 
+    /**
+     * Create object out of algorithm and its calculated digest pair
+     * @param algorithm enumeration object representing used algorithm
+     * @param digest the message digest created from source by given algorithm
+     */
     public DigestData(DigestAlgorithm algorithm, byte[] digest) {
+
         this.algorithm = new SimpleObjectProperty<>(algorithm);
         this.digest = new SimpleObjectProperty<>(digest);
     }
