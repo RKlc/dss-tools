@@ -51,6 +51,8 @@ public class DigestModel {
      *      <li>If canonicalization is selected (and applicable), source will be transformed.
      *      <li>All enumerated and registered message digests will be calculated.
      * </ol>
+     *
+     * TODO: parallel task feature: Calculation should be called from task and refresh data when finished. Requires change in Save As listener.
      */
     public void calculateDigestData() {
 

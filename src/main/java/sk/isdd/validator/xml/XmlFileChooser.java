@@ -19,6 +19,11 @@ public class XmlFileChooser {
     File lastOpenedDir;
 
     /**
+     * Used to reopen dialog box at the last saved file.
+     */
+    File lastSavedDir;
+
+    /**
      * Call customized file open dialog and internally remember last open file.
      *
      * @param stage the FX stage where to output dialog box
@@ -57,11 +62,11 @@ public class XmlFileChooser {
      * Call customized file save dialog. Internally using last open dir.
      *
      * @param stage the FX stage where to output dialog box
-     * @param file preset filename if not null
+     * @param fileRef referential file where from filename base and suffix will be preset
      * @param suffix distinguishable string for preset filename
      * @return the selected file or null if no file has been selected
      */
-    public File showXmlSaveDialog(Stage stage, File file, String suffix) {
+    public File showXmlSaveDialog(Stage stage, File fileRef, String suffix) {
 
         // setup new fileChooser
         FileChooser fileChooser = new FileChooser();
@@ -75,21 +80,31 @@ public class XmlFileChooser {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         // reset dir to last used path
-        if (lastOpenedDir != null) {
+        if (lastSavedDir != null) {
+            fileChooser.setInitialDirectory(lastSavedDir);
+
+        } else if (lastOpenedDir != null) {
             fileChooser.setInitialDirectory(lastOpenedDir);
         }
 
         // construct default filename for user's convenience
-        if (file != null) {
+        if (fileRef != null) {
 
-            String filename = FilenameUtils.getBaseName(file.getAbsolutePath()) +
+            String filename = FilenameUtils.getBaseName(fileRef.getAbsolutePath()) +
                     "." + suffix + "." +
-                    FilenameUtils.getExtension(file.getAbsolutePath());
+                    FilenameUtils.getExtension(fileRef.getAbsolutePath());
 
             fileChooser.setInitialFileName(filename);
         }
 
+        File fileSave = fileChooser.showSaveDialog(stage);
+
+        // remember dir for later
+        if (fileSave != null) {
+            lastSavedDir = fileSave.getParentFile();
+        }
+
         // show dialog and return selected file
-        return fileChooser.showSaveDialog(stage);
+        return fileSave;
     }
 }
